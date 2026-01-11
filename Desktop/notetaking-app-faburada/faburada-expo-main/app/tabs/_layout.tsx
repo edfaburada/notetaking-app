@@ -8,7 +8,6 @@ export default function Layout() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get current session on mount
     const getSession = async () => {
       const { data } = await supabase.auth.getSession();
       setSession(data.session);
@@ -17,7 +16,6 @@ export default function Layout() {
 
     getSession();
 
-    // Listen for auth state changes (login/logout)
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
@@ -25,28 +23,20 @@ export default function Layout() {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  // While loading, render nothing (or spinner if you want)
   if (loading) return null;
 
   return (
-<Stack>
-  {!session ? (
-    <>
-      <Stack.Screen name="login" />
-      <Stack.Screen name="register" />
-    </>
-  ) : (
-    <>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="dashboard" />
-      <Stack.Screen name="notes" />
-      <Stack.Screen name="about" />
-      <Stack.Screen name="contact" />
-      <Stack.Screen name="profile" />
-      <Stack.Screen name="settings" />
-    </>
-  )}
-</Stack>
-
+    <Stack>
+      {!session && <Stack.Screen name="login" />}
+      {!session && <Stack.Screen name="register" />}
+      
+      {session && <Stack.Screen name="index" />}
+      {session && <Stack.Screen name="dashboard" />}
+      {session && <Stack.Screen name="notes" />}
+      {session && <Stack.Screen name="about" />}
+      {session && <Stack.Screen name="contact" />}
+      {session && <Stack.Screen name="profile" />}
+      {session && <Stack.Screen name="settings" />}
+    </Stack>
   );
 }

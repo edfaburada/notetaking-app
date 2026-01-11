@@ -11,9 +11,9 @@ export default function Profile() {
 
       {/* Profile Image */}
       <Image
-        source={require('../assets/images/eve.webp')}
+        source={require('../../../faburada-expo-main/assets/images/eve.webp')}
         style={globalStyles.avatar}
-        defaultSource={require('../assets/images/eve.webp')}
+        defaultSource={require('../../../faburada-expo-main/assets/images/eve.webp')}
       />
 
       <Text style={globalStyles.name}>Evelyn Faburada</Text>
