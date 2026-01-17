@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, TextStyle, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
-import { supabase } from '../../supabase';
 import { globalStyles } from '@/src/styles/globalStyles';
+import { supabase } from '@/supabase';
 
 export default function DashboardIndex() {
   const router = useRouter();
@@ -9,7 +9,7 @@ export default function DashboardIndex() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     // ✅ Absolute path from app/ folder
-    router.replace('/auth/login');
+    router.replace('../login');
   };
 
   return (
@@ -19,7 +19,7 @@ export default function DashboardIndex() {
       {/* Notes */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push('/notes')} // ✅ Absolute path
+        onPress={() => router.push('./notes')} // ✅ Absolute path
       >
         <Text style={txtStyle}>My Notes</Text>
       </TouchableOpacity>
@@ -27,7 +27,7 @@ export default function DashboardIndex() {
       {/* Profile */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push('/profile')} // ✅ Absolute path
+        onPress={() => router.push('./profile')} // ✅ Absolute path
       >
         <Text style={txtStyle}>Profile</Text>
       </TouchableOpacity>
@@ -35,7 +35,7 @@ export default function DashboardIndex() {
       {/* About */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push('/about')} // ✅ Absolute path
+        onPress={() => router.push('./about')} // ✅ Absolute path
       >
         <Text style={txtStyle}>About</Text>
       </TouchableOpacity>
@@ -43,7 +43,7 @@ export default function DashboardIndex() {
       {/* Contact */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push('/contact')} // ✅ Absolute path
+        onPress={() => router.push('./contact')} // ✅ Absolute path
       >
         <Text style={txtStyle}>Contact</Text>
       </TouchableOpacity>

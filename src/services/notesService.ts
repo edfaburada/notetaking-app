@@ -9,7 +9,7 @@ export interface Note {
 }
 
 export const fetchNotes = async (user_id: string) =>
-  supabase.from<Note>('notes').select('*').eq('user_id', user_id).order('created_at', { ascending: false });
+  supabase.from ('notes').select('*').eq('user_id', user_id).order('created_at', { ascending: false });
 
 export const addNote = async (title: string, content: string, user_id: string) =>
   supabase.from('notes').insert([{ title, content, user_id }]);

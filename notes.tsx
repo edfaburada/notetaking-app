@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import { supabase } from '../supabase';
+import { supabase } from './supabase';
 import { globalStyles } from '@/src/styles/globalStyles';
 import NoteCard from '@/src/components/NoteCard';
 import { Note, fetchNotes, addNote, updateNote, deleteNote } from '@/src/services/notesService';
@@ -24,7 +24,7 @@ export default function NotesPage() {
     setLoading(true);
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-      router.replace('/auth/login');
+      router.replace({ pathname: '../login' });
       return;
     }
     setUserId(session.user.id);
