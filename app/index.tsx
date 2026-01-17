@@ -13,7 +13,7 @@ export default function Index() {
     };
 
     checkSession();
-  }, []);
+  }, [router]);
 
   return null;
 }
