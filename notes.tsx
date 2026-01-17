@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal, ActivityIndicator } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'expo-router';
 import { supabase } from './supabase';
 import { globalStyles } from '@/src/styles/globalStyles';
@@ -16,29 +16,41 @@ export default function NotesPage() {
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-
   const [userId, setUserId] = useState<string | null>(null);
 
-  // Fetch notes
-  const loadNotes = async () => {
+  // ✅ loadNotes wrapped in useCallback for safe reuse
+  const loadNotes = useCallback(async () => {
     setLoading(true);
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      router.replace({ pathname: '../login' });
+
+    // Get session
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      console.log('Session error:', error.message);
+      setLoading(false);
       return;
     }
+
+    const session = data.session;
+    if (!session) {
+      router.replace({ pathname: '../login' });
+      setLoading(false);
+      return;
+    }
+
     setUserId(session.user.id);
 
-    const { data, error } = await fetchNotes(session.user.id);
-    if (error) console.log(error.message);
-    else setNotes(data || []);
+    // Fetch notes
+    const { data: notesData, error: fetchError } = await fetchNotes(session.user.id);
+    if (fetchError) console.log(fetchError.message);
+    else setNotes(notesData || []);
 
     setLoading(false);
-  };
+  }, [router]);
 
+  // Fetch notes on mount
   useEffect(() => {
     loadNotes();
-  }, []);
+  }, [loadNotes]); // ✅ now safe
 
   // Save note
   const handleSaveNote = async () => {
