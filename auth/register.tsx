@@ -1,25 +1,27 @@
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { signUp } from '@/src/services/authService';
-import { globalStyles } from '@/src/components/styles/globalStyles';
+
 export default function Register() {
-  const [email,setEmail]=useState('');
-  const [password,setPassword]=useState('');
   const router = useRouter();
 
-  const handleRegister = async () => {
-    const res = await signUp(email,password);
-    if(res) router.replace('./dashboard/index.tsx');
-  };
-
   return (
-    <View style={globalStyles.container}>
-      <TextInput placeholder="Email" onChangeText={setEmail} style={globalStyles.input}/>
-      <TextInput placeholder="Password" secureTextEntry onChangeText={setPassword} style={globalStyles.input}/>
-      
-      <TouchableOpacity style={globalStyles.button} onPress={handleRegister}>
-        <Text style={globalStyles.buttonText}>Register</Text>
+    <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', textAlign: 'center' }}>
+        Register Screen
+      </Text>
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: '#FF69B4',
+          padding: 12,
+          marginTop: 20,
+          borderRadius: 8,
+        }}
+        onPress={() => router.replace('../auth/login')}
+      >
+        <Text style={{ color: '#fff', textAlign: 'center' }}>
+          Register
+        </Text>
       </TouchableOpacity>
     </View>
   );
