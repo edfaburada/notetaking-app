@@ -8,13 +8,8 @@ export default function Index() {
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
-
-      if (data.session) {
-        router.replace({ pathname: './dashboard' });
-   // ✅ correct
-      } else {
-        router.replace({ pathname: './auth/login' }); // ✅ correct
-      }
+      if (data.session) router.replace({ pathname: '/dashboard/index' });
+      else router.replace({ pathname: '/auth/login' });
     };
 
     checkSession();

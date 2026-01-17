@@ -1,63 +1,65 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextStyle,
-  ViewStyle,
-} from 'react-native';
+import { View, Text, TouchableOpacity, TextStyle, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
+import { supabase } from '../../supabase';
+import { globalStyles } from '@/src/styles/globalStyles';
 
-export default function Dashboard() {
+export default function DashboardIndex() {
   const router = useRouter();
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.replace({ pathname: '/auth/login' }); // ✅ Absolute path
+  };
+
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <Text style={titleStyle}>Dashboard</Text>
+    <View style={globalStyles.containerHome}>
+      <Text style={globalStyles.title}>Welcome to My Notes</Text>
 
-<TouchableOpacity
-  onPress={() => router.push('../notes')}
-  style={btnStyle}
->
-  <Text style={txtStyle}>Notes</Text>
-</TouchableOpacity>
+      {/* Notes */}
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push({ pathname: '/notes' })}
+      >
+        <Text style={txtStyle}>My Notes</Text>
+      </TouchableOpacity>
 
-<TouchableOpacity
-  onPress={() => router.push('../profile')}
-  style={btnStyle}
->
-  <Text style={txtStyle}>Profile</Text>
-</TouchableOpacity>
+      {/* Profile */}
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push({ pathname: '/profile' })}
+      >
+        <Text style={txtStyle}>Profile</Text>
+      </TouchableOpacity>
 
-<TouchableOpacity
-  onPress={() => router.push('../about')}
-  style={btnStyle}
->
-  <Text style={txtStyle}>About</Text>
-</TouchableOpacity>
+      {/* About */}
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push({ pathname: '/about' })}
+      >
+        <Text style={txtStyle}>About</Text>
+      </TouchableOpacity>
 
-<TouchableOpacity
-  onPress={() => router.push('../contact')}
-  style={btnStyle}
->
-  <Text style={txtStyle}>Contact</Text>
-</TouchableOpacity>
+      {/* Contact */}
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push({ pathname: '/contact' })}
+      >
+        <Text style={txtStyle}>Contact</Text>
+      </TouchableOpacity>
 
+      {/* Logout */}
+      <TouchableOpacity style={btnStyle} onPress={handleLogout}>
+        <Text style={txtStyle}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const titleStyle: TextStyle = {
-  fontSize: 26,
-  fontWeight: 'bold',
-  textAlign: 'center',
-  marginBottom: 20,
-};
 
 const btnStyle: ViewStyle = {
   backgroundColor: '#FF69B4',
   padding: 12,
   borderRadius: 8,
-  marginBottom: 10,
+  marginBottom: 12,
 };
 
 const txtStyle: TextStyle = {
