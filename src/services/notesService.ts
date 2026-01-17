@@ -1,19 +1,21 @@
 import { supabase } from '../../supabase';
 
-export const loginUser = async (email: string, password: string) => {
-  return await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-};
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  user_id: string;
+}
 
-export const registerUser = async (email: string, password: string) => {
-  return await supabase.auth.signUp({
-    email,
-    password,
-  });
-};
+export const fetchNotes = async (user_id: string) =>
+  supabase.from<Note>('notes').select('*').eq('user_id', user_id).order('created_at', { ascending: false });
 
-export const logoutUser = async () => {
-  return await supabase.auth.signOut();
-};
+export const addNote = async (title: string, content: string, user_id: string) =>
+  supabase.from('notes').insert([{ title, content, user_id }]);
+
+export const updateNote = async (id: string, title: string, content: string) =>
+  supabase.from('notes').update({ title, content }).eq('id', id);
+
+export const deleteNote = async (id: string) =>
+  supabase.from('notes').delete().eq('id', id);

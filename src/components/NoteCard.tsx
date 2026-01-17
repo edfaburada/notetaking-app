@@ -1,44 +1,54 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React from 'react';
 
-type Props = {
+interface NoteCardProps {
   title: string;
   content: string;
+  onEdit?: () => void;
   onDelete?: () => void;
-};
+}
 
-export default function NoteCard({ title, content, onDelete }: Props) {
+export default function NoteCard({ title, content, onEdit, onDelete }: NoteCardProps) {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onEdit}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.content}>{content}</Text>
 
       {onDelete && (
-        <TouchableOpacity onPress={onDelete}>
-          <Text style={styles.delete}>Delete</Text>
+        <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
+          <Text style={styles.deleteText}>Delete</Text>
         </TouchableOpacity>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#f5f5f5',
-    padding: 15,
+    backgroundColor: '#fff',
+    padding: 12,
     borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 12,
+    width: '48%',
+    minHeight: 100,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 16,
+    marginBottom: 6,
   },
   content: {
-    marginTop: 5,
-    color: '#555',
+    fontSize: 14,
   },
-  delete: {
+  deleteBtn: {
     marginTop: 10,
+    alignSelf: 'flex-start',
+  },
+  deleteText: {
     color: 'red',
-    fontWeight: 'bold',
   },
 });

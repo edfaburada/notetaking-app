@@ -8,7 +8,8 @@ export default function DashboardIndex() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.replace({ pathname: '/auth/login' }); // ✅ Absolute path
+    // ✅ Absolute path from app/ folder
+    router.replace('/auth/login');
   };
 
   return (
@@ -18,7 +19,7 @@ export default function DashboardIndex() {
       {/* Notes */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push({ pathname: '/notes' })}
+        onPress={() => router.push('/notes')} // ✅ Absolute path
       >
         <Text style={txtStyle}>My Notes</Text>
       </TouchableOpacity>
@@ -26,7 +27,7 @@ export default function DashboardIndex() {
       {/* Profile */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push({ pathname: '/profile' })}
+        onPress={() => router.push('/profile')} // ✅ Absolute path
       >
         <Text style={txtStyle}>Profile</Text>
       </TouchableOpacity>
@@ -34,7 +35,7 @@ export default function DashboardIndex() {
       {/* About */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push({ pathname: '/about' })}
+        onPress={() => router.push('/about')} // ✅ Absolute path
       >
         <Text style={txtStyle}>About</Text>
       </TouchableOpacity>
@@ -42,7 +43,7 @@ export default function DashboardIndex() {
       {/* Contact */}
       <TouchableOpacity
         style={btnStyle}
-        onPress={() => router.push({ pathname: '/contact' })}
+        onPress={() => router.push('/contact')} // ✅ Absolute path
       >
         <Text style={txtStyle}>Contact</Text>
       </TouchableOpacity>

@@ -1,9 +1,27 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
+import { supabase } from '../supabase';
+import { globalStyles } from '@/src/styles/globalStyles';
 
-export default function Profile() {
+export default function ProfilePage() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.replace('/auth/login');
+  };
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Profile Screen</Text>
+    <View style={globalStyles.containerHome}>
+      <Text style={globalStyles.title}>My Profile</Text>
+
+      <View style={{ marginBottom: 20 }}>
+        <Text style={{ fontSize: 18 }}>Email: {supabase.auth.getUser()?.email || 'Not available'}</Text>
+      </View>
+
+      <TouchableOpacity style={globalStyles.button} onPress={handleLogout}>
+        <Text style={globalStyles.buttonText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 }
