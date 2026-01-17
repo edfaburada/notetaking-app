@@ -1,16 +1,24 @@
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import React from 'react';
 
 interface NoteCardProps {
   title: string;
   content: string;
+  imageUrl?: string; // optional image
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-export default function NoteCard({ title, content, onEdit, onDelete }: NoteCardProps) {
+export default function NoteCard({ title, content, imageUrl, onEdit, onDelete }: NoteCardProps) {
   return (
     <TouchableOpacity style={styles.card} onPress={onEdit}>
+      {imageUrl && (
+        <Image
+          source={{ uri: imageUrl }}
+          style={styles.image}
+          resizeMode="cover" // ✅ use prop instead of style
+        />
+      )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.content}>{content}</Text>
 
@@ -35,6 +43,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
+  },
+  image: {
+    width: '100%',
+    height: 100,
+    borderRadius: 8,
+    marginBottom: 8,
   },
   title: {
     fontWeight: 'bold',
