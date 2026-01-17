@@ -12,7 +12,7 @@ export default function Index() {
       else router.replace('./auth/login');
     };
     checkSession();
-  }, []);
+  }, [router]);
 
   return null;
 }
