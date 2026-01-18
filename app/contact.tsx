@@ -1,8 +1,12 @@
 import { globalStyles } from '@/app/globalStyles';
 import { useState } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ContactPage() {
+  const router = useRouter();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -17,7 +21,20 @@ export default function ContactPage() {
 
   return (
     <View style={globalStyles.containerHome}>
-      <Text style={globalStyles.title}>Contact Us</Text>
+      {/* Back button */}
+      <TouchableOpacity
+        onPress={() => router.push('/dashboard')}
+        style={{
+          position: 'absolute',
+          top: 10,
+          left: 20,
+          zIndex: 10,
+        }}
+      >
+        <Ionicons name="arrow-back-circle-outline" size={40} color="#FF69B4" />
+      </TouchableOpacity>
+
+      <Text style={globalStyles.title}>Kontaka Mi If naa moi reklamo!</Text>
 
       <TextInput
         placeholder="Your Name"

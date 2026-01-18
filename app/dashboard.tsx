@@ -7,10 +7,10 @@ import { globalStyles } from './globalStyles';
 export default function Dashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [,setUser] = useState<any>(null);
+  const [, setUser] = useState<any>(null);
 
+  // ✅ Check if user is logged in
   useEffect(() => {
-    // Check if user is logged in
     const checkAuth = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
 
@@ -21,11 +21,11 @@ export default function Dashboard() {
       }
 
       if (!session) {
-        router.replace('/login'); // Redirect if not logged in
+        router.replace('/login');
         return;
       }
 
-      setUser(session.user); // Save user info
+      setUser(session.user);
       setLoading(false);
     };
 
@@ -46,30 +46,30 @@ export default function Dashboard() {
   }
 
   return (
-  <View style={globalStyles.containerHome}>
-    <Text style={globalStyles.title}>Welcome TRUESOUL&apos;s SQUAD</Text>
+    <View style={globalStyles.containerHome}>
+      <Text style={globalStyles.title}>Welcome TRUESOUL&apos;s SQUAD</Text>
 
-    <TouchableOpacity style={btnStyle} onPress={() => router.push('/notes')}>
-      <Text style={txtStyle}>My Notes</Text>
-    </TouchableOpacity>
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/notes')}>
+        <Text style={txtStyle}>My Notes</Text>
+      </TouchableOpacity>
 
-    <TouchableOpacity style={btnStyle} onPress={() => router.push('/profile')}>
-      <Text style={txtStyle}>Profile</Text>
-    </TouchableOpacity>
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/profile')}>
+        <Text style={txtStyle}>Profile</Text>
+      </TouchableOpacity>
 
-    <TouchableOpacity style={btnStyle} onPress={() => router.push('/about')}>
-      <Text style={txtStyle}>About</Text>
-    </TouchableOpacity>
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/about')}>
+        <Text style={txtStyle}>About</Text>
+      </TouchableOpacity>
 
-    <TouchableOpacity style={btnStyle} onPress={() => router.push('/contact')}>
-      <Text style={txtStyle}>Contact</Text>
-    </TouchableOpacity>
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/contact')}>
+        <Text style={txtStyle}>Contact</Text>
+      </TouchableOpacity>
 
-    <TouchableOpacity style={btnStyle} onPress={handleLogout}>
-      <Text style={txtStyle}>Logout</Text>
-    </TouchableOpacity>
-  </View>
-);
+      <TouchableOpacity style={btnStyle} onPress={handleLogout}>
+        <Text style={txtStyle}>Logout</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const btnStyle: ViewStyle = {

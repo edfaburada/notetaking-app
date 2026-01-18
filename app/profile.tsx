@@ -1,14 +1,16 @@
 import { globalStyles } from '@/app/globalStyles';
 import { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../supabase';
 import * as ImagePicker from 'expo-image-picker';
+import { router } from 'expo-router';
+
 
 export default function ProfilePage() {
-  const [email, setEmail] = useState<string | null>(null);
+  const [, setEmail] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [description, setDescription] = useState<string>('Aspiring Developer | Learning Expo Router');
-  const [uploading, setUploading] = useState(false);
+  const [description] = useState<string>('Aspiring Developer | Learning Expo Router');
+  const [, setUploading] = useState(false);
 
   // Fetch user info on mount
   useEffect(() => {
@@ -19,15 +21,6 @@ export default function ProfilePage() {
         setEmail(null);
       } else {
         setEmail(data.user?.email || null);
-
-        // Load avatar if exists
-        if (data.user?.id) {
-          const { data: avatarData, error: avatarError } = await supabase
-            .storage
-            .from('avatars')
-            .getPublicUrl(`${data.user.id}.png`);
-          if (!avatarError && avatarData) setAvatarUrl(avatarData.publicUrl);
-        }
       }
     };
     fetchUser();
@@ -83,36 +76,27 @@ export default function ProfilePage() {
 
   return (
     <View style={globalStyles.containerHome}>
-      <Text style={globalStyles.title}>My Profile</Text>
+      <Text style={globalStyles.title}>Our Picsyurr!</Text>
 
       <TouchableOpacity onPress={pickImage} style={{ marginBottom: 20 }}>
         <Image
-          source={avatarUrl ? { uri: avatarUrl } : require('../assets/images/eve.webp')}
+          source={avatarUrl ? { uri: avatarUrl } : require('../assets/images/TRUESOULS.png')}
           style={{ width: 120, height: 120, borderRadius: 60, alignSelf: 'center' }}
         />
       </TouchableOpacity>
 
-      <Text style={{ fontSize: 18, marginBottom: 10 }}>Email: {email || 'Not available'}</Text>
+  {/* Description */}
+  <Text style={{ fontSize: 16, marginBottom: 20, textAlign: 'center' }}>
+    {description || 'No description added yet.'}
+  </Text>
 
-      <TextInput
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Profile description"
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          padding: 10,
-          borderRadius: 8,
-          marginBottom: 12,
-        }}
-      />
-
-      <TouchableOpacity
-        onPress={() => Alert.alert('Profile Saved', 'Your profile has been updated!')}
-        style={[globalStyles.button, { width: '100%' }]}
-      >
-        <Text style={globalStyles.buttonText}>Save Profile</Text>
-      </TouchableOpacity>
-    </View>
+  {/* Back to Home Button */}
+  <TouchableOpacity
+    onPress={() => router.push('/dashboard')}
+    style={[globalStyles.button, { width: '50%', alignSelf: 'center' }]}
+  >
+    <Text style={globalStyles.buttonText}>Back to Home</Text>
+  </TouchableOpacity>
+</View>
   );
 }

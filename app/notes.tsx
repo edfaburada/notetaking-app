@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { supabase } from '../supabase';
+import { Ionicons } from '@expo/vector-icons'; // ✅ import Ionicons
 
 export default function NotesPage() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function NotesPage() {
 
     const { data, error } = await supabase.auth.getSession();
     if (error || !data.session) {
-      router.replace({ pathname: '../index' });
+      router.replace({ pathname: '/dashboard' }); // redirect to dashboard if not logged in
       setLoading(false);
       return;
     }
@@ -34,9 +35,8 @@ export default function NotesPage() {
 
     const { data: notesData, error: fetchError } = await fetchNotes(uid);
     if (fetchError) {
-  console.log("ERROR:", fetchError);
-}
-    else setNotes(notesData || []);
+      console.log("ERROR:", fetchError);
+    } else setNotes(notesData || []);
 
     setLoading(false);
   }, [router]);
@@ -46,28 +46,28 @@ export default function NotesPage() {
   }, [loadNotes]);
 
   /* ================= CREATE & UPDATE ================= */
-const handleSaveNote = async () => {
-  if (!title.trim()) {
-    alert('Title cannot be empty');
-    return;
-  }
-
-  try {
-    if (editingNoteId) {
-      await updateNote(editingNoteId, title, content);
-    } else {
-      if (userId) await addNote(title, content, userId);
+  const handleSaveNote = async () => {
+    if (!title.trim()) {
+      alert('Title cannot be empty');
+      return;
     }
-    setTitle('');
-    setContent('');
-    setEditingNoteId(null);
-    setModalVisible(false);
-    loadNotes();
-  } catch (error: any) {
-    console.log('Error saving note:', error.message);
-    alert('Failed to save note');
-  }
-};
+
+    try {
+      if (editingNoteId) {
+        await updateNote(editingNoteId, title, content);
+      } else {
+        if (userId) await addNote(title, content, userId);
+      }
+      setTitle('');
+      setContent('');
+      setEditingNoteId(null);
+      setModalVisible(false);
+      loadNotes();
+    } catch (error: any) {
+      console.log('Error saving note:', error.message);
+      alert('Failed to save note');
+    }
+  };
 
   /* ================= EDIT ================= */
   const handleEditNote = (note: Note) => {
@@ -101,8 +101,22 @@ const handleSaveNote = async () => {
       </View>
     );
 
+  // ✅ Corrected return statement
   return (
-    <View style={{ flex: 1, padding: 10, backgroundColor: '#fdf5e6' }}>
+    <View style={{ flex: 1, backgroundColor: '#fdf5e6' }}>
+      {/* Back Button */}
+      <TouchableOpacity
+        onPress={() => router.push('/dashboard')} // redirect to dashboard
+        style={{
+          position: 'absolute',
+          top: 10,
+          left: 20,
+          zIndex: 20, // ensure it's above other components
+        }}
+      >
+        <Ionicons name="arrow-back-circle-outline" size={40} color="#FF69B4" />
+      </TouchableOpacity>
+
       <Text style={{ fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>
         My Notes
       </Text>
@@ -113,6 +127,7 @@ const handleSaveNote = async () => {
           flexWrap: 'wrap',
           justifyContent: 'space-between',
           paddingBottom: 100,
+          paddingTop: 20,
         }}
       >
         {notes.map((note) => (
