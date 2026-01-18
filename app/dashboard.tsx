@@ -47,7 +47,7 @@ export default function Dashboard() {
 
   return (
   <View style={globalStyles.containerHome}>
-    <Text style={globalStyles.title}>Welcome TRUESOUL's SQUAD</Text>
+    <Text style={globalStyles.title}>Welcome TRUESOUL&apos;s SQUAD</Text>
 
     <TouchableOpacity style={btnStyle} onPress={() => router.push('/notes')}>
       <Text style={txtStyle}>My Notes</Text>
