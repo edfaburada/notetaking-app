@@ -1,71 +1,49 @@
-import { useEffect, useState } from 'react';
 import { globalStyles } from './globalStyles';
 import { supabase } from '../supabase';
 import { useRouter } from 'expo-router';
-import { Text, TouchableOpacity, View, ViewStyle, TextStyle, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, View, TextStyle, ViewStyle } from 'react-native';
 
 export default function DashboardIndex() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true); // Loading while checking auth
-  const [user, setUser] = useState<any>(null);  // Store user info
-
-  useEffect(() => {
-    // Check user session on mount
-    const checkAuth = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession();
-
-      if (error) {
-        console.log('Session error:', error.message);
-        router.replace('/login'); // Redirect if error
-        return;
-      }
-
-      if (!session) {
-        router.replace('/login'); // Redirect if not logged in
-        return;
-      }
-
-      setUser(session.user); // Save user info
-      setLoading(false);     // Done checking
-    };
-
-    checkAuth();
-  }, [router]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.replace('/login');
+    router.replace('/login'); // ✅ Use absolute path
   };
-
-  if (loading) {
-    return (
-      <View style={globalStyles.containerHome}>
-        <ActivityIndicator size="large" color="#FF69B4" />
-      </View>
-    );
-  }
 
   return (
     <View style={globalStyles.containerHome}>
-      <Text style={globalStyles.title}>Welcome, {user?.email}</Text>
+      <Text style={globalStyles.title}>Welcome to My Notes</Text>
 
       {/* Notes */}
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/notes')}>
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push('/notes')} // ✅ Absolute path
+      >
         <Text style={txtStyle}>My Notes</Text>
       </TouchableOpacity>
 
       {/* Profile */}
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/profile')}>
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push('/profile')} // ✅ Absolute path
+      >
         <Text style={txtStyle}>Profile</Text>
       </TouchableOpacity>
 
       {/* About */}
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/about')}>
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push('/about')} // ✅ Absolute path
+      >
         <Text style={txtStyle}>About</Text>
       </TouchableOpacity>
 
       {/* Contact */}
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/contact')}>
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={() => router.push('/contact')} // ✅ Absolute path
+      >
         <Text style={txtStyle}>Contact</Text>
       </TouchableOpacity>
 

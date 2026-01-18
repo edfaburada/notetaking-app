@@ -5,7 +5,6 @@ import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { supabase } from '../supabase';
-import { Ionicons } from '@expo/vector-icons'; // ✅ Import icon
 
 export default function NotesPage() {
   const router = useRouter();
@@ -23,6 +22,7 @@ export default function NotesPage() {
   const loadNotes = useCallback(async () => {
     setLoading(true);
 
+    // Get session
     const { data, error } = await supabase.auth.getSession();
     if (error) {
       console.log('Session error:', error.message);
@@ -32,13 +32,14 @@ export default function NotesPage() {
 
     const session = data.session;
     if (!session) {
-      router.replace('./app/dashboard.tsx'); // ✅ Redirect to dashboard
+      router.replace({ pathname: '../login' });
       setLoading(false);
       return;
     }
 
     setUserId(session.user.id);
 
+    // Fetch notes
     const { data: notesData, error: fetchError } = await fetchNotes(session.user.id);
     if (fetchError) console.log(fetchError.message);
     else setNotes(notesData || []);
@@ -46,10 +47,12 @@ export default function NotesPage() {
     setLoading(false);
   }, [router]);
 
+  // Fetch notes on mount
   useEffect(() => {
     loadNotes();
-  }, [loadNotes]);
+  }, [loadNotes]); // ✅ now safe
 
+  // Save note
   const handleSaveNote = async () => {
     if (!title.trim()) {
       alert('Title cannot be empty');
@@ -89,19 +92,18 @@ export default function NotesPage() {
 
   return (
     <View style={{ flex: 1, padding: 10, backgroundColor: '#fdf5e6' }}>
-      
-      {/* ✅ Back Button */}
-      <TouchableOpacity
-        style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}
-        onPress={() => router.replace('./index')}
+      <Text style={{ fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>
+        My Notes
+      </Text>
+
+      <ScrollView
+        contentContainerStyle={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          paddingBottom: 100,
+        }}
       >
-        <Ionicons name="arrow-back" size={24} color="#FF69B4" />
-        <Text style={{ color: '#FF69B4', fontWeight: 'bold', marginLeft: 6 }}>Back</Text>
-      </TouchableOpacity>
-
-      <Text style={{ fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>My Notes</Text>
-
-      <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', paddingBottom: 100 }}>
         {notes.map((note) => (
           <NoteCard
             key={note.id}
@@ -115,7 +117,14 @@ export default function NotesPage() {
 
       {/* Add/Edit Modal */}
       <Modal visible={modalVisible} animationType="slide" transparent>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', padding: 20 }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            justifyContent: 'center',
+            padding: 20,
+          }}
+        >
           <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 12 }}>
             <TextInput
               placeholder="Title"
@@ -131,17 +140,27 @@ export default function NotesPage() {
               multiline
             />
 
-            <TouchableOpacity style={[globalStyles.button, { width: '100%' }]} onPress={handleSaveNote}>
-              <Text style={globalStyles.buttonText}>{editingNoteId ? 'Update Note' : 'Add Note'}</Text>
+            <TouchableOpacity
+              style={[globalStyles.button, { width: '100%' }]}
+              onPress={handleSaveNote}
+            >
+              <Text style={globalStyles.buttonText}>
+                {editingNoteId ? 'Update Note' : 'Add Note'}
+              </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[globalStyles.button, { backgroundColor: '#ccc', marginTop: 10, width: '100%' }]} onPress={() => {
-              setModalVisible(false);
-              setTitle('');
-              setContent('');
-              setEditingNoteId(null);
-            }}>
-              <Text style={{ color: '#333', textAlign: 'center', fontWeight: 'bold' }}>Cancel</Text>
+            <TouchableOpacity
+              style={[globalStyles.button, { backgroundColor: '#ccc', marginTop: 10, width: '100%' }]}
+              onPress={() => {
+                setModalVisible(false);
+                setTitle('');
+                setContent('');
+                setEditingNoteId(null);
+              }}
+            >
+              <Text style={{ color: '#333', textAlign: 'center', fontWeight: 'bold' }}>
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
