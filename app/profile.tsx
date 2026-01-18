@@ -1,7 +1,7 @@
 import { globalStyles } from '@/app/globalStyles';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { supabase } from './supabase';
+import { supabase } from '../supabase';
 
 export default function ProfilePage() {
   const [email, setEmail] = useState<string | null>(null);
