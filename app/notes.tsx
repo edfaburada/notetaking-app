@@ -32,7 +32,7 @@ export default function NotesPage() {
 
     const session = data.session;
     if (!session) {
-      router.replace('./dashboard'); // redirect to dashboard
+      router.replace('/dashboard'); // redirect to dashboard
       setLoading(false);
       return;
     }
