@@ -1,10 +1,10 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal, ActivityIndicator } from 'react-native';
-import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'expo-router';
-import { supabase } from './supabase';
-import { globalStyles } from '@/src/styles/globalStyles';
+import { globalStyles } from '@/app/globalStyles';
 import NoteCard from '@/src/components/NoteCard';
-import { Note, fetchNotes, addNote, updateNote, deleteNote } from '@/src/services/notesService';
+import { Note, addNote, deleteNote, fetchNotes, updateNote } from '@/src/services/notesService';
+import { useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { supabase } from '../supabase';
 
 export default function NotesPage() {
   const router = useRouter();

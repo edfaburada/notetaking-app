@@ -1,5 +1,5 @@
-import { View, Text } from 'react-native';
-import { globalStyles } from '@/src/styles/globalStyles';
+import { globalStyles } from '@/app/globalStyles';
+import { Text, View } from 'react-native';
 
 export default function AboutPage() {
   return (

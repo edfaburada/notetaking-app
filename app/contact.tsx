@@ -1,6 +1,6 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { globalStyles } from '@/app/globalStyles';
 import { useState } from 'react';
-import { globalStyles } from '@/src/styles/globalStyles';
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function ContactPage() {
   const [name, setName] = useState('');
