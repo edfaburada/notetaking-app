@@ -18,60 +18,55 @@ export default function NotesPage() {
   const [content, setContent] = useState('');
   const [userId, setUserId] = useState<string | null>(null);
 
-  // ✅ loadNotes wrapped in useCallback for safe reuse
+  /* ================= READ ================= */
   const loadNotes = useCallback(async () => {
     setLoading(true);
 
-    // Get session
     const { data, error } = await supabase.auth.getSession();
-    if (error) {
-      console.log('Session error:', error.message);
-      setLoading(false);
-      return;
-    }
-
-    const session = data.session;
-    if (!session) {
+    if (error || !data.session) {
       router.replace({ pathname: '../index' });
       setLoading(false);
       return;
     }
 
-    setUserId(session.user.id);
+    const uid = data.session.user.id;
+    setUserId(uid);
 
-    // Fetch notes
-    const { data: notesData, error: fetchError } = await fetchNotes(session.user.id);
+    const { data: notesData, error: fetchError } = await fetchNotes(uid);
     if (fetchError) console.log(fetchError.message);
     else setNotes(notesData || []);
 
     setLoading(false);
   }, [router]);
 
-  // Fetch notes on mount
   useEffect(() => {
     loadNotes();
-  }, [loadNotes]); // ✅ now safe
+  }, [loadNotes]);
 
-  // Save note
+  /* ================= CREATE & UPDATE ================= */
   const handleSaveNote = async () => {
     if (!title.trim()) {
       alert('Title cannot be empty');
       return;
     }
 
-    if (editingNoteId) {
-      await updateNote(editingNoteId, title, content);
-    } else {
-      if (userId) await addNote(title, content, userId);
-    }
+    try {
+      if (editingNoteId) {
+        await updateNote(editingNoteId, title, content); // UPDATE
+      } else {
+        if (!userId) return;
+        await addNote(title, content, userId); // CREATE
+      }
 
-    setTitle('');
-    setContent('');
-    setEditingNoteId(null);
-    setModalVisible(false);
-    loadNotes();
+      resetForm();
+      loadNotes();
+
+    } catch (err) {
+      console.log('Save error:', err);
+    }
   };
 
+  /* ================= EDIT ================= */
   const handleEditNote = (note: Note) => {
     setTitle(note.title);
     setContent(note.content);
@@ -79,22 +74,44 @@ export default function NotesPage() {
     setModalVisible(true);
   };
 
+  /* ================= DELETE ================= */
   const handleDeleteNote = async (id: string) => {
-    await deleteNote(id);
-    loadNotes();
+    try {
+      await deleteNote(id);
+      loadNotes();
+    } catch (err) {
+      console.log('Delete error:', err);
+    }
   };
 
-  if (loading) return (
-    <View style={globalStyles.containerHome}>
-      <ActivityIndicator size="large" color="#FF69B4" />
-    </View>
-  );
+  const resetForm = () => {
+    setTitle('');
+    setContent('');
+    setEditingNoteId(null);
+    setModalVisible(false);
+  };
+
+  if (loading)
+    return (
+      <View style={globalStyles.containerHome}>
+        <ActivityIndicator size="large" color="#FF69B4" />
+      </View>
+    );
 
   return (
     <View style={{ flex: 1, padding: 10, backgroundColor: '#fdf5e6' }}>
-      <Text style={{ fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>My Notes</Text>
+      <Text style={{ fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>
+        My Notes
+      </Text>
 
-      <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', paddingBottom: 100 }}>
+      <ScrollView
+        contentContainerStyle={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          paddingBottom: 100,
+        }}
+      >
         {notes.map((note) => (
           <NoteCard
             key={note.id}
@@ -106,7 +123,7 @@ export default function NotesPage() {
         ))}
       </ScrollView>
 
-      {/* Add/Edit Modal */}
+      {/* MODAL */}
       <Modal visible={modalVisible} animationType="slide" transparent>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', padding: 20 }}>
           <View style={{ backgroundColor: '#fff', padding: 20, borderRadius: 12 }}>
@@ -116,31 +133,46 @@ export default function NotesPage() {
               onChangeText={setTitle}
               style={{ borderWidth: 1, borderRadius: 6, padding: 10, marginBottom: 10 }}
             />
+
             <TextInput
               placeholder="Content"
               value={content}
               onChangeText={setContent}
-              style={{ borderWidth: 1, borderRadius: 6, padding: 10, marginBottom: 10, height: 100 }}
+              style={{
+                borderWidth: 1,
+                borderRadius: 6,
+                padding: 10,
+                marginBottom: 10,
+                height: 100,
+              }}
               multiline
             />
 
-            <TouchableOpacity style={[globalStyles.button, { width: '100%' }]} onPress={handleSaveNote}>
-              <Text style={globalStyles.buttonText}>{editingNoteId ? 'Update Note' : 'Add Note'}</Text>
+            <TouchableOpacity
+              style={[globalStyles.button, { width: '100%' }]}
+              onPress={handleSaveNote}
+            >
+              <Text style={globalStyles.buttonText}>
+                {editingNoteId ? 'Update Note' : 'Add Note'}
+              </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[globalStyles.button, { backgroundColor: '#ccc', marginTop: 10, width: '100%' }]} onPress={() => {
-              setModalVisible(false);
-              setTitle('');
-              setContent('');
-              setEditingNoteId(null);
-            }}>
-              <Text style={{ color: '#333', textAlign: 'center', fontWeight: 'bold' }}>Cancel</Text>
+            <TouchableOpacity
+              style={[
+                globalStyles.button,
+                { backgroundColor: '#ccc', marginTop: 10, width: '100%' },
+              ]}
+              onPress={resetForm}
+            >
+              <Text style={{ color: '#333', textAlign: 'center', fontWeight: 'bold' }}>
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
 
-      {/* Floating Add Button */}
+      {/* ADD BUTTON */}
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         style={{
