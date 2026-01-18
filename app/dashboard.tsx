@@ -46,30 +46,30 @@ export default function Dashboard() {
   }
 
   return (
-    <View style={globalStyles.containerHome}>
-      <Text style={globalStyles.title}>Welcome, {user?.email}</Text>
+  <View style={globalStyles.containerHome}>
+    <Text style={globalStyles.title}>Welcome TRUESOUL's SQUAD</Text>
 
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/notes')}>
-        <Text style={txtStyle}>My Notes</Text>
-      </TouchableOpacity>
+    <TouchableOpacity style={btnStyle} onPress={() => router.push('/notes')}>
+      <Text style={txtStyle}>My Notes</Text>
+    </TouchableOpacity>
 
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/profile')}>
-        <Text style={txtStyle}>Profile</Text>
-      </TouchableOpacity>
+    <TouchableOpacity style={btnStyle} onPress={() => router.push('/profile')}>
+      <Text style={txtStyle}>Profile</Text>
+    </TouchableOpacity>
 
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/about')}>
-        <Text style={txtStyle}>About</Text>
-      </TouchableOpacity>
+    <TouchableOpacity style={btnStyle} onPress={() => router.push('/about')}>
+      <Text style={txtStyle}>About</Text>
+    </TouchableOpacity>
 
-      <TouchableOpacity style={btnStyle} onPress={() => router.push('/contact')}>
-        <Text style={txtStyle}>Contact</Text>
-      </TouchableOpacity>
+    <TouchableOpacity style={btnStyle} onPress={() => router.push('/contact')}>
+      <Text style={txtStyle}>Contact</Text>
+    </TouchableOpacity>
 
-      <TouchableOpacity style={btnStyle} onPress={handleLogout}>
-        <Text style={txtStyle}>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  );
+    <TouchableOpacity style={btnStyle} onPress={handleLogout}>
+      <Text style={txtStyle}>Logout</Text>
+    </TouchableOpacity>
+  </View>
+);
 }
 
 const btnStyle: ViewStyle = {
