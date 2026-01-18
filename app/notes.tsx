@@ -1,6 +1,6 @@
 import { globalStyles } from '@/app/globalStyles';
-import NoteCard from '@/src/components/NoteCard';
-import { Note, addNote, deleteNote, fetchNotes, updateNote } from '@/src/services/notesService';
+import NoteCard from './NoteCard';
+import { Note, addNote, deleteNote, fetchNotes, updateNote } from './notesService';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
