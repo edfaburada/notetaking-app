@@ -6,16 +6,17 @@ import { Text, TouchableOpacity, View, ViewStyle, TextStyle, ActivityIndicator }
 
 export default function DashboardIndex() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true); // Loading while checking auth
+  const [user, setUser] = useState<any>(null);  // Store user info
 
   useEffect(() => {
+    // Check user session on mount
     const checkAuth = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
 
       if (error) {
-        console.log('Error getting session:', error.message);
-        router.replace('/login');
+        console.log('Session error:', error.message);
+        router.replace('/login'); // Redirect if error
         return;
       }
 
@@ -25,7 +26,7 @@ export default function DashboardIndex() {
       }
 
       setUser(session.user); // Save user info
-      setLoading(false);
+      setLoading(false);     // Done checking
     };
 
     checkAuth();
@@ -49,34 +50,22 @@ export default function DashboardIndex() {
       <Text style={globalStyles.title}>Welcome, {user?.email}</Text>
 
       {/* Notes */}
-      <TouchableOpacity
-        style={btnStyle}
-        onPress={() => router.push('/notes')}
-      >
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/notes')}>
         <Text style={txtStyle}>My Notes</Text>
       </TouchableOpacity>
 
       {/* Profile */}
-      <TouchableOpacity
-        style={btnStyle}
-        onPress={() => router.push('/profile')}
-      >
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/profile')}>
         <Text style={txtStyle}>Profile</Text>
       </TouchableOpacity>
 
       {/* About */}
-      <TouchableOpacity
-        style={btnStyle}
-        onPress={() => router.push('/about')}
-      >
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/about')}>
         <Text style={txtStyle}>About</Text>
       </TouchableOpacity>
 
       {/* Contact */}
-      <TouchableOpacity
-        style={btnStyle}
-        onPress={() => router.push('/contact')}
-      >
+      <TouchableOpacity style={btnStyle} onPress={() => router.push('/contact')}>
         <Text style={txtStyle}>Contact</Text>
       </TouchableOpacity>
 
