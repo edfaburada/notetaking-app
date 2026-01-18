@@ -41,7 +41,9 @@ export default function NotesPage() {
 
     // Fetch notes
     const { data: notesData, error: fetchError } = await fetchNotes(session.user.id);
-    if (fetchError) console.log(fetchError.message);
+    if (fetchError) {
+  console.log("ERROR:", fetchError);
+}
     else setNotes(notesData || []);
 
     setLoading(false);
