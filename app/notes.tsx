@@ -46,27 +46,28 @@ export default function NotesPage() {
   }, [loadNotes]);
 
   /* ================= CREATE & UPDATE ================= */
-  const handleSaveNote = async () => {
-    if (!title.trim()) {
-      alert('Title cannot be empty');
-      return;
+const handleSaveNote = async () => {
+  if (!title.trim()) {
+    alert('Title cannot be empty');
+    return;
+  }
+
+  try {
+    if (editingNoteId) {
+      await updateNote(editingNoteId, title, content);
+    } else {
+      if (userId) await addNote(title, content, userId);
     }
-
-    try {
-      if (editingNoteId) {
-        await updateNote(editingNoteId, title, content); // UPDATE
-      } else {
-        if (!userId) return;
-        await addNote(title, content, userId); // CREATE
-      }
-
-      resetForm();
-      loadNotes();
-
-    } catch (err) {
-      console.log('Save error:', err);
-    }
-  };
+    setTitle('');
+    setContent('');
+    setEditingNoteId(null);
+    setModalVisible(false);
+    loadNotes();
+  } catch (error: any) {
+    console.log('Error saving note:', error.message);
+    alert('Failed to save note');
+  }
+};
 
   /* ================= EDIT ================= */
   const handleEditNote = (note: Note) => {
