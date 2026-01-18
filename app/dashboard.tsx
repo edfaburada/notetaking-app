@@ -7,7 +7,7 @@ import { globalStyles } from './globalStyles';
 export default function Dashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [,setUser] = useState<any>(null);
 
   useEffect(() => {
     // Check if user is logged in

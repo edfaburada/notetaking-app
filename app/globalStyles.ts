@@ -1,15 +1,25 @@
 import { StyleSheet } from 'react-native';
 
 export const globalStyles = StyleSheet.create({
-  // Main container for pages
+  /* ================= MAIN CONTAINERS ================= */
+
   containerHome: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fdf5e6', // soft background for notes app
+    backgroundColor: '#fdf5e6',
     justifyContent: 'center',
   },
 
-  // Titles / headings
+  containerProfile: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fdf5e6',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  /* ================= TITLES ================= */
+
   title: {
     fontSize: 28,
     fontWeight: 'bold',
@@ -18,16 +28,17 @@ export const globalStyles = StyleSheet.create({
     color: '#333',
   },
 
-  // Buttons
+  /* ================= BUTTONS ================= */
+
   button: {
     backgroundColor: '#FF69B4',
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
     alignItems: 'center',
+    width: '100%',
   },
 
-  // Button text
   buttonText: {
     color: '#fff',
     textAlign: 'center',
@@ -35,7 +46,8 @@ export const globalStyles = StyleSheet.create({
     fontSize: 16,
   },
 
-  // Text input for forms (login, register, notes)
+  /* ================= INPUTS ================= */
+
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -45,9 +57,11 @@ export const globalStyles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     backgroundColor: '#fff',
+    width: '100%',
   },
 
-  // Modal container
+  /* ================= MODAL ================= */
+
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -55,14 +69,14 @@ export const globalStyles = StyleSheet.create({
     padding: 20,
   },
 
-  // Modal content
   modalContent: {
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 12,
   },
 
-  // Note card (for NoteCard component)
+  /* ================= NOTE CARD ================= */
+
   noteCard: {
     backgroundColor: '#fff',
     padding: 12,
@@ -96,5 +110,28 @@ export const globalStyles = StyleSheet.create({
   deleteText: {
     color: 'red',
     fontWeight: 'bold',
+  },
+
+  /* ================= PROFILE ================= */
+
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 15,
+  },
+
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333',
+  },
+
+  bio: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });

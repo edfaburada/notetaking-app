@@ -32,7 +32,7 @@ export default function NotesPage() {
 
     const session = data.session;
     if (!session) {
-      router.replace({ pathname: '../login' });
+      router.replace({ pathname: '../index' });
       setLoading(false);
       return;
     }
