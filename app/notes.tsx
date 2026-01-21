@@ -27,9 +27,10 @@ export default function NotesPage() {
   const [content, setContent] = useState('');
   const [userId, setUserId] = useState<string | null>(null);
 
-  // NEW STATES
+  // SEARCH & PIN STATES
   const [search, setSearch] = useState('');
   const [pinnedNotes, setPinnedNotes] = useState<string[]>([]);
+  const [showPinned, setShowPinned] = useState(false); // ✅ NEW
 
   /* ================= READ ================= */
   const loadNotes = useCallback(async () => {
@@ -79,11 +80,15 @@ export default function NotesPage() {
 
   /* ================= FILTER ================= */
   const filteredNotes = notes
-    .filter(
-      (note) =>
+    .filter((note) => {
+      // show only pinned if toggle is ON
+      if (showPinned && !pinnedNotes.includes(note.id)) return false;
+
+      return (
         note.title.toLowerCase().includes(search.toLowerCase()) ||
         note.content.toLowerCase().includes(search.toLowerCase())
-    )
+      );
+    })
     .sort((a, b) => {
       if (pinnedNotes.includes(a.id)) return -1;
       if (pinnedNotes.includes(b.id)) return 1;
@@ -157,7 +162,7 @@ export default function NotesPage() {
           flexDirection: 'row',
           flexWrap: 'wrap',
           justifyContent: 'space-between',
-          paddingBottom: 100,
+          paddingBottom: 120,
         }}
       >
         {filteredNotes.map((note) => (
@@ -245,6 +250,29 @@ export default function NotesPage() {
         }}
       >
         <Text style={{ color: '#fff', fontSize: 30 }}>+</Text>
+      </TouchableOpacity>
+
+      {/* PIN VIEW BUTTON */}
+      <TouchableOpacity
+        onPress={() => setShowPinned(!showPinned)}
+        style={{
+          position: 'absolute',
+          bottom: 100, // above +
+          right: 30,
+          width: 60,
+          height: 60,
+          borderRadius: 30,
+          backgroundColor: showPinned ? '#ffb6c1' : '#FF69B4',
+          justifyContent: 'center',
+          alignItems: 'center',
+          elevation: 5,
+        }}
+      >
+        <Ionicons
+          name={showPinned ? 'list' : 'pin'}
+          size={26}
+          color="#fff"
+        />
       </TouchableOpacity>
     </View>
   );

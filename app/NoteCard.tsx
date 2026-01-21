@@ -1,27 +1,47 @@
-import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
 
 interface NoteCardProps {
   title: string;
   content: string;
   onEdit: () => void;
   onDelete: () => void;
-  pinned?: boolean;   // ✅ added
-  onPin?: () => void; // ✅ added
+  pinned?: boolean;
+  onPin?: () => void;
 }
 
-
-export default function NoteCard({ title, content, onEdit, onDelete, pinned, onPin }: NoteCardProps) {
+export default function NoteCard({
+  title,
+  content,
+  onEdit,
+  onDelete,
+  pinned,
+  onPin,
+}: NoteCardProps) {
   return (
     <TouchableOpacity style={styles.card} onPress={onEdit}>
+
+      {/* PIN BUTTON */}
+      {onPin && (
+        <TouchableOpacity
+          onPress={onPin}
+          style={styles.pinBtn}
+        >
+          <Ionicons
+            name={pinned ? 'pin' : 'pin-outline'}
+            size={18}
+            color="#FF69B4"
+          />
+        </TouchableOpacity>
+      )}
+
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.content}>{content}</Text>
 
-      {onDelete && (
-        <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
+        <Text style={styles.deleteText}>Delete</Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
@@ -41,24 +61,29 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
   },
-  image: {
-    width: '100%',
-    height: 100,
-    borderRadius: 8,
-    marginBottom: 8,
+
+  pinBtn: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    zIndex: 10,
   },
+
   title: {
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 6,
   },
+
   content: {
     fontSize: 14,
   },
+
   deleteBtn: {
     marginTop: 10,
     alignSelf: 'flex-start',
   },
+
   deleteText: {
     color: 'red',
   },
