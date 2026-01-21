@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "faburada-notetakingapp",
-    "slug": "faburada-notetakingapp",
+    "name": "MyNotesApp",
+    "slug": "mynotesapp-eve",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/TRUESOULS.png",
     "scheme": "faburadanotetakingapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,24 +14,24 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/TRUESOULS.png",
+        "backgroundImage": "./assets/images/TRUESOULS.png",
+        "monochromeImage": "./assets/images/TRUESOULS.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.beniveragz.faburadanotetakingapp"
+      "package": "com.eve_01.mynotesapp"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/TRUESOULS.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/TRUESOULS.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
