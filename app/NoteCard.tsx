@@ -4,21 +4,16 @@ import React from 'react';
 interface NoteCardProps {
   title: string;
   content: string;
-  imageUrl?: string; // optional image
-  onEdit?: () => void;
-  onDelete?: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  pinned?: boolean;   // ✅ added
+  onPin?: () => void; // ✅ added
 }
 
-export default function NoteCard({ title, content, imageUrl, onEdit, onDelete }: NoteCardProps) {
+
+export default function NoteCard({ title, content, onEdit, onDelete, pinned, onPin }: NoteCardProps) {
   return (
     <TouchableOpacity style={styles.card} onPress={onEdit}>
-      {imageUrl && (
-        <Image
-          source={{ uri: imageUrl }}
-          style={styles.image}
-          resizeMode="cover" // ✅ use prop instead of style
-        />
-      )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.content}>{content}</Text>
 
