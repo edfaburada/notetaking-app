@@ -77,20 +77,20 @@ export const globalStyles = StyleSheet.create({
 
   /* ================= NOTE CARD ================= */
 
-  noteCard: {
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 10,
-    marginBottom: 12,
-    width: '48%',
-    minHeight: 100,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-    marginLeft: 15,
-    marginRight: 15,
-  },
+noteCard: {
+  backgroundColor: '#fff',
+  padding: 12,
+  borderRadius: 10,
+  marginBottom: 12,
+  width: '50%',        // 👈 keeps two cards per row
+  minHeight: 100,
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowRadius: 5,
+  elevation: 3,
+  marginHorizontal: 2, // 👈 instead of marginLeft
+},
+
 
   noteTitle: {
     fontWeight: 'bold',

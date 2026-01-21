@@ -234,23 +234,47 @@ export default function NotesPage() {
         </View>
       </Modal>
 
-      {/* ADD BUTTON */}
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={{
-          position: 'absolute',
-          bottom: 30,
-          right: 30,
-          width: 60,
-          height: 60,
-          borderRadius: 30,
-          backgroundColor: '#FF69B4',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ color: '#fff', fontSize: 30 }}>+</Text>
-      </TouchableOpacity>
+{/* ADD BUTTON */}
+<TouchableOpacity
+  onPress={() => setModalVisible(true)}
+  style={{
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#FF69B4',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }}
+>
+  <Text style={{ color: '#fff', fontSize: 30 }}>+</Text>
+</TouchableOpacity>
+
+{/* PIN VIEW BUTTON */}
+<TouchableOpacity
+  onPress={() => setShowPinned(!showPinned)}
+  style={{
+    position: 'absolute',
+    bottom: 100,   // 👈 above plus button
+    right: 30,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: showPinned ? '#ffb6c1' : '#FF69B4',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+  }}
+>
+  <Ionicons
+    name={showPinned ? 'list' : 'pin'}
+    size={26}
+    color="#fff"
+  />
+</TouchableOpacity>
+
 
       {/* PIN VIEW BUTTON */}
       <TouchableOpacity
