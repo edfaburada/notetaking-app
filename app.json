@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "MyNotesApp",
-    "slug": "mynotesapp-eve",
+    "name": "My Notes App",
+    "slug": "mynotesapp-yourname",
     "version": "1.0.0",
+    "platforms": ["android", "ios"],
     "orientation": "portrait",
     "icon": "./assets/images/TRUESOULS.png",
     "scheme": "faburadanotetakingapp",
