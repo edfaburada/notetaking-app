@@ -1,9 +1,12 @@
 {
   "expo": {
     "name": "My Notes App",
-    "slug": "mynotesapp-yourname",
+    "slug": "mynotesapp-eve-01",
     "version": "1.0.0",
-    "platforms": ["android", "ios"],
+    "platforms": [
+      "android",
+      "ios"
+    ],
     "orientation": "portrait",
     "icon": "./assets/images/TRUESOULS.png",
     "scheme": "faburadanotetakingapp",
@@ -49,7 +52,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "5f0d9554-492e-465a-bdcc-1ac860a2c00d"
+        "projectId": "82d522d2-0dd9-46b1-8380-9936db616f75"
       }
     }
   }
