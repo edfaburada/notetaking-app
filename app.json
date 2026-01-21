@@ -1,11 +1,14 @@
 {
   "expo": {
     "name": "My Notes App",
-    "slug": "mynotesapp-eve01",       // ✅ unique slug
+    "slug": "mynotesapp-eve01",
     "version": "1.0.0",
-    "platforms": ["android", "ios"],
+    "platforms": [
+      "android",
+      "ios"
+    ],
     "orientation": "portrait",
-    "icon": "./assets/images/TRUESOULS.png", 
+    "icon": "./assets/images/TRUESOULS.png",
     "scheme": "faburadanotetakingapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,9 +16,9 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.eve01.mynotesapp",  // ✅ valid package name
+      "package": "com.eve01.mynotesapp",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/TRUESOULS.png", // must exist
+        "foregroundImage": "./assets/images/TRUESOULS.png",
         "backgroundColor": "#E6F4FE"
       },
       "edgeToEdgeEnabled": true,
@@ -47,7 +50,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": ""   // ✅ leave empty for new EAS project
+        "projectId": "619c8109-e051-438a-adc9-b58f35fefa71"
       }
     }
   }
